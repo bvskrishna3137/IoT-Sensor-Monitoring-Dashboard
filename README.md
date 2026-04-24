@@ -12,62 +12,68 @@
 
 This project delivers a complete, end-to-end IoT data analytics pipeline —
 built to simulate how real industrial environments monitor connected sensor devices.
-It processes high-frequency sensor readings (temperature, humidity, vibration,
-and pressure), automatically detects threshold violations, and surfaces
-actionable insights through a professional multi-page Power BI dashboard.
+Sensor readings including temperature, humidity, vibration, and pressure are
+generated using Python, stored in a PostgreSQL database, transformed using SQL,
+and visualised through a professional multi-page Power BI dashboard.
 
-Built independently as a **portfolio project**, this solution demonstrates
-applied skills across the full data stack: Python data engineering, PostgreSQL
-database design, SQL transformation logic, and Power BI analytics.
+Built independently as a **personal portfolio project**, this solution demonstrates
+hands-on skills across the full data stack — from data generation and database
+design, through SQL querying and views, to interactive Power BI reporting.
 
 ---
 
 ## 🛠️ Tools & Technologies
 
-| Tool | Component | Purpose |
-|------|-----------|---------|
-| Python | Pandas · NumPy · Faker | Synthetic data generation & preprocessing |
-| PostgreSQL | v15 · Relational DB | Schema design & persistent data storage |
-| SQL | DDL · DML · Views | Data modelling, transformation & alert logic |
-| Power BI | Desktop · Service | Interactive dashboards & visual reporting |
-| GitHub | Version Control | Source control & portfolio showcase |
+| Tool | Purpose |
+|------|---------|
+| Python (Pandas · NumPy · Faker) | Synthetic sensor data generation |
+| PostgreSQL | Relational database storage & management |
+| pgAdmin | Database setup, SQL execution & CSV import |
+| SQL (DDL · DML · Views) | Data modelling, transformation & alert logic |
+| Power BI Desktop | Interactive dashboard & visual reporting |
+| GitHub | Version control & portfolio showcase |
 
 ---
 
 ## 🔄 Data Pipeline Architecture
-[ Python Scripts — src/ ]
-↓
-Generate synthetic sensor data
-(temperature, humidity, vibration, pressure)
-↓
-Load data into PostgreSQL
-via load_to_postgres.py
-↓
-[ PostgreSQL Database ]
-Store raw readings · Enforce schema integrity
-↓
-[ SQL Queries & Views — sql/ ]
-Transform data · Apply threshold alerting logic
-views.sql · analysis_queries.sql
-↓
+
+```
+[ Python Scripts ]
+        ↓
+  Generate synthetic sensor data
+  (temperature, humidity, vibration, pressure)
+        ↓
+[ pgAdmin — PostgreSQL ]
+  Create database schema
+  Import CSV data into tables
+        ↓
+[ SQL — Views & Queries ]
+  Transform data
+  Apply threshold alerting logic
+        ↓
 [ Power BI Dashboard ]
-Visualise insights · Enable drill-through analysis
+  Connect to PostgreSQL
+  Visualise insights & enable drill-through analysis
+```
 
 ---
 
 ## 🧱 Data Model — Star Schema
-              ┌─────────────┐
-              │   Device    │
-              └──────┬──────┘
-                     │
+
+```
+                  ┌─────────────┐
+                  │   Device    │
+                  └──────┬──────┘
+                         │
 ┌──────────┐    ┌────────┴────────┐    ┌──────────┐
 │  Sensor  ├────│ Sensor Readings ├────│ Location │
 └──────────┘    │   (Fact Table)  │    └──────────┘
-└────────┬────────┘
-│
-┌──────┴──────┐
-│   Alerts    │
-└─────────────┘
+                └────────┬────────┘
+                         │
+                  ┌──────┴──────┐
+                  │   Alerts    │
+                  └─────────────┘
+```
 
 - **Fact Table** — Sensor Readings (reading value, timestamp, device ID)
 - **Dim: Device** — device name, type, status, battery level, signal strength
@@ -87,7 +93,7 @@ Visualise insights · Enable drill-through analysis
 ### 2. 🖥️ Device Health Monitoring
 - Device-level performance grid (status, uptime, battery, signal strength)
 - Battery and signal strength health indicators
-- Geographic distribution of devices by facility location
+- Device distribution by facility location
 
 ### 3. 📈 Trend & Anomaly Analysis
 - Time-series sensor reading charts with rolling averages
@@ -138,48 +144,51 @@ git clone https://github.com/bvskrishna3137/IoT-Sensor-Monitoring-Dashboard.git
 cd IoT-Sensor-Monitoring-Dashboard
 ```
 
-**2. Install dependencies**
+**2. Install Python dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-**3. Configure your database credentials**
-
-Create a `.env` file in the root folder:
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=iot_dashboard
-DB_USER=your_username
-DB_PASSWORD=your_password
-
-**4. Generate the sensor data**
+**3. Generate the sensor data**
 ```bash
 python src/generate_sensor_data.py
-```
-
-**5. Generate the alerts**
-```bash
 python src/generate_alerts.py
 ```
 
-**6. Load data into PostgreSQL**
-```bash
-python src/load_to_postgres.py
-```
+**4. Set up PostgreSQL Database**
+- Open **pgAdmin**
+- Create a new database called `iot_dashboard`
+- Open **Query Tool** and run `sql/views.sql`
+- This will create all tables — Device, Sensor, Location, Alerts, Sensor Readings
 
-**7. Set up SQL views and queries**
-- Open pgAdmin or psql
-- Run `sql/views.sql`
-- Run `sql/analysis_queries.sql`
+**5. Import CSV data into PostgreSQL**
+- In pgAdmin right click your table
+- Select **Import/Export Data**
+- Choose `data/raw/sensor_readings.csv`
+- Click **OK** to import
 
-**8. Open Power BI**
+**6. Run SQL Views and Queries**
+- Open **Query Tool** in pgAdmin
+- Run `sql/views.sql` to create reporting views
+- Run `sql/analysis_queries.sql` to apply alert logic and analysis
+
+**7. Connect Power BI to PostgreSQL**
 - Open `power bi/IoT_Sensor_Dashboard.pbix`
-- Connect to your PostgreSQL database via ODBC
-- Load and refresh the dashboard
+- Go to **Home** → **Transform Data** → **Data Source Settings**
+- Set your PostgreSQL server and database name `iot_dashboard`
+- Click **Refresh** to load latest data
+
+**8. Explore the Dashboard**
+- Page 1 → Executive Overview
+- Page 2 → Device Health Monitoring
+- Page 3 → Trend & Anomaly Analysis
+- Page 4 → Alert Deep Dive
 
 ---
 
 ## 📁 Project Structure
+
+```
 IoT-Sensor-Monitoring-Dashboard/
 │
 ├── README.md
@@ -207,9 +216,10 @@ IoT-Sensor-Monitoring-Dashboard/
 │   └── analysis_queries.sql
 │
 └── src/
-├── generate_sensor_data.py
-├── generate_alerts.py
-└── load_to_postgres.py
+    ├── generate_sensor_data.py
+    ├── generate_alerts.py
+    └── load_to_postgres.py
+```
 
 ---
 
