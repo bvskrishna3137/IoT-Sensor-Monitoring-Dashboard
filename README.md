@@ -150,12 +150,12 @@ DB_PASSWORD=your_password
 
 **4. Generate the sensor data**
 ```bash
-python data_generation/generate_sensor_data.py
+python src/generate_sensor_data.py
 ```
 
 **5. Set up the database**
 - Open PostgreSQL and run `database/schema.sql`
-- Run `sql/queries.sql` to create views and alert logic
+Execute `sql/views.sql` and `sql/analysis_queries.sql` in PostgreSQL using pgAdmin or psql to create views and apply alert logic.
 
 **6. Open Power BI**
 - Connect to your PostgreSQL database via ODBC
@@ -204,6 +204,10 @@ Data Engineer & Analytics Developer
 
 [![GitHub](https://img.shields.io/badge/GitHub-bvskrishna3137-black?logo=github)](https://github.com/bvskrishna3137)
 [![Email](https://img.shields.io/badge/Email-bvskrishna3137@gmail.com-red?logo=gmail)](mailto:bvskrishna3137@gmail.com)
+
+## 📄 Project Report
+
+📥 [Download Full Project Report](docs/IoT%20Sensor%20Monitoring%20Dashboard%20for%20Smart%20Factory%20Equipment.docx)
 
 ---
 
