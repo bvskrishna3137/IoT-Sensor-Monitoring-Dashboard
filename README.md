@@ -210,3 +210,7 @@ Data Engineer & Analytics Developer
 ## 📄 License
 
 This project is developed for **personal portfolio and non-commercial use only**.
+## ?? Project Report
+
+?? [Download Full Project Report](docs/IoT%20Sensor%20Monitoring%20Dashboard%20for%20Smart%20Factory%20Equipment.docx)
+
