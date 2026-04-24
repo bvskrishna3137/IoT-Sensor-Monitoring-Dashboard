@@ -35,16 +35,20 @@ database design, SQL transformation logic, and Power BI analytics.
 ---
 
 ## 🔄 Data Pipeline Architecture
-[ Python Scripts ]
+[ Python Scripts — src/ ]
 ↓
 Generate synthetic sensor data
 (temperature, humidity, vibration, pressure)
 ↓
+Load data into PostgreSQL
+via load_to_postgres.py
+↓
 [ PostgreSQL Database ]
 Store raw readings · Enforce schema integrity
 ↓
-[ SQL Queries & Views ]
+[ SQL Queries & Views — sql/ ]
 Transform data · Apply threshold alerting logic
+views.sql · analysis_queries.sql
 ↓
 [ Power BI Dashboard ]
 Visualise insights · Enable drill-through analysis
@@ -130,8 +134,8 @@ Visualise insights · Enable drill-through analysis
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/bvskrishna3137/iot-sensor-dashboard.git
-cd iot-sensor-dashboard
+git clone https://github.com/bvskrishna3137/IoT-Sensor-Monitoring-Dashboard.git
+cd IoT-Sensor-Monitoring-Dashboard
 ```
 
 **2. Install dependencies**
@@ -153,38 +157,68 @@ DB_PASSWORD=your_password
 python src/generate_sensor_data.py
 ```
 
-**5. Set up the database**
-- Open PostgreSQL and run `database/schema.sql`
-Execute `sql/views.sql` and `sql/analysis_queries.sql` in PostgreSQL using pgAdmin or psql to create views and apply alert logic.
+**5. Generate the alerts**
+```bash
+python src/generate_alerts.py
+```
 
-**6. Open Power BI**
+**6. Load data into PostgreSQL**
+```bash
+python src/load_to_postgres.py
+```
+
+**7. Set up SQL views and queries**
+- Open pgAdmin or psql
+- Run `sql/views.sql`
+- Run `sql/analysis_queries.sql`
+
+**8. Open Power BI**
+- Open `power bi/IoT_Sensor_Dashboard.pbix`
 - Connect to your PostgreSQL database via ODBC
 - Load and refresh the dashboard
 
 ---
 
 ## 📁 Project Structure
-iot-sensor-dashboard/
+IoT-Sensor-Monitoring-Dashboard/
 │
-├── requirements.txt
-├── .env                    ← DB credentials (not pushed to GitHub)
-├── .gitignore
 ├── README.md
+├── requirements.txt
 │
-├── data_generation/
-│   └── generate_sensor_data.py
+├── data/
+│   ├── processed/
+│   └── raw/
+│       └── sensor_readings.csv
 │
-├── database/
-│   └── schema.sql
+├── docs/
+│   └── IoT Sensor Monitoring Dashboard for Smart Factory Equipment.docx
+│
+├── power bi/
+│   └── IoT_Sensor_Dashboard.pbix
+│
+├── screenshots/
+│   ├── page1_overview.png
+│   ├── page2_device.png
+│   ├── page3_trend.png
+│   └── page4_alert.png
 │
 ├── sql/
-│   └── queries.sql
+│   ├── views.sql
+│   └── analysis_queries.sql
 │
-└── screenshots/
-├── page1_overview.png
-├── page2_device.png
-├── page3_trend.png
-└── page4_alert.png
+└── src/
+├── generate_sensor_data.py
+├── generate_alerts.py
+└── load_to_postgres.py
+
+---
+
+## 📄 Project Report
+
+[![Download Report](https://img.shields.io/badge/Download-Project%20Report-blue?logo=microsoftword)](docs/IoT%20Sensor%20Monitoring%20Dashboard%20for%20Smart%20Factory%20Equipment.docx)
+
+> Full technical report covering project architecture, data model,
+> dashboard design, key insights, and future roadmap.
 
 ---
 
@@ -199,22 +233,14 @@ iot-sensor-dashboard/
 
 ## 👤 Author
 
-**Venkata Sai Krishna Baggu**  
+**Venkata Sai Krishna Baggu**
 Data Engineer & Analytics Developer
 
 [![GitHub](https://img.shields.io/badge/GitHub-bvskrishna3137-black?logo=github)](https://github.com/bvskrishna3137)
 [![Email](https://img.shields.io/badge/Email-bvskrishna3137@gmail.com-red?logo=gmail)](mailto:bvskrishna3137@gmail.com)
-
-## 📄 Project Report
-
-📥 [Download Full Project Report](docs/IoT%20Sensor%20Monitoring%20Dashboard%20for%20Smart%20Factory%20Equipment.docx)
 
 ---
 
 ## 📄 License
 
 This project is developed for **personal portfolio and non-commercial use only**.
-
-
-
-
